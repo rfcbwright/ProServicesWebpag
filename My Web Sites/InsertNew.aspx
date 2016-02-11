@@ -5,17 +5,28 @@
 
     protected void Button1_Click(object sender, EventArgs e)
     {
-        SqlDataSource1.Insert();
-        CustomerTB.Text = String.Empty;
-        Sales_Order_TB.Text = String.Empty;
-        Ship_Date_TB.Text = String.Empty;
-        Sales_Rep_TB.Text = String.Empty;
-        P201_TB.Text = String.Empty;
-        P202_TB.Text = String.Empty;
-        PS_Hours_TB.Text = String.Empty;
-        End_Customer_TB.Text = String.Empty;
-        CustomerPOC_TB.Text = String.Empty;
-        PSE_TB.Text = String.Empty;
+        try
+        {
+            SqlDataSource1.Insert();
+
+
+            CustomerTB.Text = String.Empty;
+            Sales_Order_TB.Text = String.Empty;
+            Sales_Rep_TB.Text = String.Empty;
+            P201_TB.Text = String.Empty;
+            P202_TB.Text = String.Empty;
+            PS_Hours_TB.Text = String.Empty;
+            End_Customer_TB.Text = String.Empty;
+            CustomerPOC_TB.Text = String.Empty;
+            PSE_TB.Text = String.Empty;
+            Calendar1.SelectedDates.Clear();
+            Label1.Text = String.Empty;
+        }
+        catch (System.Data.SqlClient.SqlException error)
+        {
+            Label1.Text = error.ToString();
+
+        }
     }
 </script>
 
@@ -37,8 +48,16 @@
         Sales Order:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <asp:TextBox ID="Sales_Order_TB" runat="server" BorderStyle="Solid"></asp:TextBox>
         <br />
         <br />
-        Ship Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-        <asp:TextBox ID="Ship_Date_TB" runat="server" BorderStyle="Solid"></asp:TextBox>
+        Ship Date:&nbsp;<asp:Calendar ID="Calendar1" runat="server" BackColor="White" BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" Height="180px" Width="200px">
+            <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" />
+            <NextPrevStyle VerticalAlign="Bottom" />
+            <OtherMonthDayStyle ForeColor="#808080" />
+            <SelectedDayStyle BackColor="#666666" Font-Bold="True" ForeColor="White" />
+            <SelectorStyle BackColor="#CCCCCC" />
+            <TitleStyle BackColor="#999999" BorderColor="Black" Font-Bold="True" />
+            <TodayDayStyle BackColor="#CCCCCC" ForeColor="Black" />
+            <WeekendDayStyle BackColor="#FFFFCC" />
+        </asp:Calendar>
         <br />
         <br />
         Sales Rep:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
@@ -73,7 +92,7 @@
             <InsertParameters>
                 <asp:ControlParameter ControlID="CustomerTB" Name="customer" PropertyName="Text" />
                 <asp:ControlParameter ControlID="Sales_Order_TB" Name="sales_order" PropertyName="Text" />
-                <asp:ControlParameter ControlID="Ship_Date_TB" Name="ship_date" PropertyName="Text" />
+                <asp:ControlParameter ControlID="Calendar1" Name="ship_date" PropertyName="SelectedDate" />
                 <asp:ControlParameter ControlID="Sales_Rep_TB" Name="sales_rep" PropertyName="Text" />
                 <asp:ControlParameter ControlID="P201_TB" Name="p201_days_purchased" PropertyName="Text" />
                 <asp:ControlParameter ControlID="P202_TB" Name="p202_days_purchased" PropertyName="Text" />
@@ -85,6 +104,11 @@
                 <asp:Parameter DefaultValue="False" Name="invoiced" />
             </InsertParameters>
         </asp:SqlDataSource>
+        <br />
+        <br />
+        <asp:Label ID="Label1" runat="server"></asp:Label>
+        <br />
+        <br />
     </form>
 </body>
 </html>
